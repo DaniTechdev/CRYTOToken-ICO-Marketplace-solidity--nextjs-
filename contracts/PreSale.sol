@@ -176,15 +176,46 @@ contract ICOMarketplace {
         emit TokenWithdraw(_token, msg.sender, _amount);
     }
 
+    //get details of token created irrespective of who created them
     function getTokenDetails(
         address _token
-    ) external view returns (TokenDetails memory) {}
+    ) external view returns (TokenDetails memory) {
+        //first let's modifier for tokenSupported be established
+        require(tokenDetails[_token].supported, "Token not supported");
 
-    //get ico created by a simgle user
+        return tokenDetails[_token];
+    }
+
+    //get ico created by a single user
     function getTokenCreatedBy(
         address _creator
-    ) external view returns (TokenDetails[] memory) {}
+    ) external view returns (TokenDetails[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < allSupportedTokens.length; i++) {
+            if (tokenDetails[allSupportedTokens[i]].creator == _creator) {
+                count++;
+            }
+        }
+        TokenDetails[] memory tokens = new TokenDetails[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < allSupportedTokens.length; i++) {
+            if (tokenDetails[allSupportedTokens[i]].creator == _creator) {
+                tokens[index] = tokenDetails[allSupportedTokens[i]];
+                index++;
+            }
+        }
+
+        return tokens;
+    }
 
     //get entire ico created
-    function getAllTokens() external view returns (TokenDetails[] memory) {}
+    function getAllTokens() external view returns (TokenDetails[] memory) {
+        uint256 length = allSupportedTokens.length;
+
+        TokenDetails[] memory tokens = new TokenDetails[](length);
+        for (uint256 i = 0; i < length; i++) {
+            tokens[i] = tokenDetails[allSupportedTokens[i]];
+        }
+        return tokens;
+    }
 }
