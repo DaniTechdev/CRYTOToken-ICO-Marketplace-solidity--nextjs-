@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 //it can be done from our front end or ssmart contract
 //Best to be done within the contract
 
+//contract
+//0xfa949750F82779376B174C195D8f2baef20750F2
 interface IERC20 {
     function transfer(
         address recipient,
