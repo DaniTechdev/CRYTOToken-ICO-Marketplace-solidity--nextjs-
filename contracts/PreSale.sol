@@ -123,7 +123,7 @@ contract ICOMarketplace {
         address _token,
         uint256 _amount
     ) external payable supportedToken(_token) supportedToken(_token) {
-        //check if amount to buy is not zero
+        //check if amount to to buy of the token should not be zero
 
         require(_amount > 0, "Amount must be greater than 0");
 
@@ -161,10 +161,20 @@ contract ICOMarketplace {
         return allSupportedTokens;
     }
 
-    function withdraw(
+    function withdrawToken(
         address _token,
         uint256 _amount
-    ) external onlyCreator(_token) supportedToken(_token) {}
+    ) external onlyCreator(_token) supportedToken(_token) {
+        //check if amount to withdraw of the token should not be zero
+        require(_amount > 0, "Amount must be greater than 0");
+
+        IERC20 token = IERC20(_token);
+        uint256 balance = token.balanceOf(address(this));
+        require(balance >= _amount, "Insufficient token balance");
+        require(token.transfer(msg.sender, _amount), "Token transfer failed");
+
+        emit TokenWithdraw(_token, msg.sender, _amount);
+    }
 
     function getTokenDetails(
         address _token
