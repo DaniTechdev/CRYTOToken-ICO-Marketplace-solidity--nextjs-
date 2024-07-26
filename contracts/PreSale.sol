@@ -89,7 +89,7 @@ contract ICOMarketplace {
     }
 
     //CONTRACT FUNCTIONS
-    function createICOSale(address _token, uint _price) external {
+    function createICOSale(address _token, uint256 _price) external {
         //to be able to have access and make use of the ERC20 token interfact function,
         //we will have to pass the token address to the created interface
         IERC20 token = IERC20(_token);
@@ -136,12 +136,30 @@ contract ICOMarketplace {
         //we will use the call method
         (bool sent, ) = details.creator.call{value: msg.value}("");
 
-        require(sent, "Failed to transer Ether to token Creator")
+        require(sent, "Failed to transer Ether to token Creator");
+
+        IERC20 token = IERC20(_token);
+        //transfer the tokens to the user
+        require(
+            token.transfer(msg.sender, _amount * 10 ** 18),
+            "Transfer Failed"
+        ); //since the amount is in wei, so we convert it to wei
+
+        emit TokenTransferred(_token, msg.sender, _amount);
     }
 
-    function getBalance(address _token) external view returns (uint256) {}
+    //getting the balance of a particular token in our ico contract address(address(this))
+    function getBalance(address _token) external view returns (uint256) {
+        //note: once a token is created for the ICOSale, its supported status changed to true
+        require(tokenDetails[_token].supported, "Token not supported");
 
-    function getSuppoortedTokens() external view returns (address[] memory) {}
+        IERC20 token = IERC20(_token);
+        return token.balanceOf(address(this));
+    }
+
+    function getSuppoortedTokens() external view returns (address[] memory) {
+        return allSupportedTokens;
+    }
 
     function withdraw(
         address _token,
