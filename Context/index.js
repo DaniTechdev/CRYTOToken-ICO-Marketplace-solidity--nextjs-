@@ -27,5 +27,83 @@ import {
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
+  //STATE VARIABLE
+  const [addresss, setAddresss] = useState();
+  const [accountBalance, setAccountBalance] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [recall, setRecall] = useState(0);
+  const [currency, setCurrency] = useState("MATIC");
+
+  //COMPONENT
+  const [openBuyToken, setOpenBuyToken] = useState(false);
+  const [openWidthdrawToken, setOpenWidthdrawToken] = useState(false);
+  const [openTransferToken, setOpenTransferToken] = useState(false);
+  const [openTokenCreator, setOpenTokenCreator] = useState(false);
+  const [openCreatedICO, setOpenCreatedICO] = useState(false);
+
+  //let write notification function which takes two argumen, msg, duration it will last
+
+  const notifySuccess = (msg) => toast.success(msg, { duration: 200 });
+  const notifyError = (msg) => toast.error(msg, { duration: 200 });
+
+  //FUNCTIONS
+  //CHECK IF WALLET IS CONNECTED
+  const checkIfWalletConnected = async () => {
+    try {
+      if (!window.ethereum) return notifyError("No account found");
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
+
+      if (accounts.length) {
+        setAddresss(accounts[0]);
+
+        //lets get the balance of the account immediately it is connected and the account addresss found
+        const provider = new ethers.providers.Web3Provider(connection);
+        //on the provider, we have method called get balance
+        const getbalance = await provider.getBalance(accounts[0]);
+        //format the balance from ether to readable form
+        const bal = ethers.utils.formatEther(getbalance);
+        setAccountBalance(bal);
+
+        return accounts[0];
+      } else {
+        notifyError("No account found");
+      }
+    } catch (error) {
+      console.log(error);
+      notifyError("No account found");
+    }
+  };
+
+  const connectWallet = async () => {
+    try {
+      if (!window.ethereum) return notifyError("No account found");
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      if (accounts.length) {
+        setAddresss(accounts[0]);
+
+        //lets get the balance of the account immediately it is connected and the account addresss found
+        const provider = new ethers.providers.Web3Provider(connection);
+        //on the provider, we have method called get balance
+        const getbalance = await provider.getBalance(accounts[0]);
+        //format the balance from ether to readable form
+        const bal = ethers.utils.formatEther(getbalance);
+        setAccountBalance(bal);
+
+        return accounts[0];
+      } else {
+        notifyError("No account found");
+      }
+    } catch (error) {
+      console.log(error);
+      notifyError("No account found");
+    }
+  };
+
+  //TOKEN Creation will have two functions, internal and the one to attach on the front end
   return <StateContext.Provider value={{}}>{children}</StateContext.Provider>;
 };
