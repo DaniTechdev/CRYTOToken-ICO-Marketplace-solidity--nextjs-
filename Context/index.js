@@ -52,6 +52,10 @@ export const StateContextProvider = ({ children }) => {
   const checkIfWalletConnected = async () => {
     try {
       if (!window.ethereum) return notifyError("No account found");
+      //here immediately the metamask is called, the handlwswitch function will check if
+      //we are connected with our defined network, if not, it wwill use the one defined default by metamask or choosen by user in metamask
+      await handleNetworkSwitch();
+
       const accounts = await window.ethereum.request({
         method: "eth_accounts",
       });
@@ -59,8 +63,9 @@ export const StateContextProvider = ({ children }) => {
       if (accounts.length) {
         setAddresss(accounts[0]);
 
-        //lets get the balance of the account immediately it is connected and the account addresss found
-        const provider = new ethers.providers.Web3Provider(connection);
+        //lets get the balance of the account immediately it is connected
+        //and the account addresss found
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
         //on the provider, we have method called get balance
         const getbalance = await provider.getBalance(accounts[0]);
         //format the balance from ether to readable form
@@ -77,9 +82,16 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    checkIfWalletConnected();
+  }, [addresss]);
+
   const connectWallet = async () => {
     try {
       if (!window.ethereum) return notifyError("No account found");
+      //here immediately the metamask is called, the handlwswitch function will check if
+      //we are connected with our defined network, if not, it wwill use the one defined default by metamask or choosen by user in metamask
+      await handleNetworkSwitch();
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -88,7 +100,7 @@ export const StateContextProvider = ({ children }) => {
         setAddresss(accounts[0]);
 
         //lets get the balance of the account immediately it is connected and the account addresss found
-        const provider = new ethers.providers.Web3Provider(connection);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
         //on the provider, we have method called get balance
         const getbalance = await provider.getBalance(accounts[0]);
         //format the balance from ether to readable form
@@ -318,6 +330,8 @@ export const StateContextProvider = ({ children }) => {
       setLoader(true);
       notifySuccess("Purchasing token ...");
 
+      if (!tokenQuantity || tokenAddresss) return notifyError("Data Missing");
+
       const address = await connectWallet();
       const contract = await ICO_MARKETPLACE_ADDRESS();
 
@@ -377,7 +391,7 @@ export const StateContextProvider = ({ children }) => {
       notifySuccess("transaction is processing");
       const address = await connectWallet();
 
-      const contract = await ICO_MARKETPLACE_CONTRACT();
+      const contract = await TOKEN_CONTRACT(transferTokenData.tokenAdd);
       //getting the balance of the token the user wants to transfer
       const _availableBal = await contract.balanceOf(address);
       const availableToken = ethers.utils.formatEther(_availableBal.toString());
@@ -451,7 +465,43 @@ export const StateContextProvider = ({ children }) => {
       console.log(error);
     }
   };
-  return <StateContext.Provider value={{}}>{children}</StateContext.Provider>;
+  return (
+    <StateContext.Provider
+      value={{
+        widthdrawToken,
+        transferTokens,
+        buyToken,
+        createICOSALE,
+        GET_ALL_ICOSALE_TOKEN,
+        GET_ALL_USER_ICOSALE_TOKEN,
+        createERC20,
+        connectWallet,
+        checkIfWalletConnected,
+        openBuyToken,
+        setOpenBuyToken,
+        openWidthdrawToken,
+        setOpenWidthdrawToken,
+        openTransferToken,
+        setOpenTransferToken,
+        openTokenCreator,
+        setOpenTransferToken,
+        openCreatedICO,
+        setOpenCreatedICO,
+        addresss,
+        setAddresss,
+        accountBalance,
+        loader,
+        setLoader,
+        currency,
+        PINATA_API_KEY,
+        PINATA_API_SECRET,
+        ICO_MARKETPLACE_ADDRESS,
+        shortenAddresss,
+      }}
+    >
+      {children}
+    </StateContext.Provider>
+  );
 };
 
 export const useStateContext = () => useContext(StateContext);

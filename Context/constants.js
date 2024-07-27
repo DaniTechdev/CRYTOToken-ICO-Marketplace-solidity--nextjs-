@@ -55,7 +55,7 @@ const networks = {
     rpcUrls: ["https://rpc.ankr.com/bsc"],
     blockExplorerUrls: ["https://bscscan.com/"],
   },
-  bsc: {
+  base_mainnet: {
     chainID: `0x${Number(8453).toString(16)}`, //to string of 16 bytes
     chainName: "Base Mainnet",
     nativeCurrency: {
@@ -76,7 +76,7 @@ const changeNetwork = async ({ networkName }) => {
       method: "wallet_addEthereumChain",
       params: [
         {
-          ...networkName[networkName],
+          ...networks[networkName],
         },
       ],
     });
@@ -92,7 +92,7 @@ export const handleNetworkSwitch = async () => {
 
 //function to shorten our addresss
 export const shortenAddresss = (address) =>
-  `${address?.slice(0, 5)}...${address?.length - 4}`;
+  `${address?.slice(0, 5)}...${address.length - 4}`; //getting the first 5 and the last 4 characters
 
 //CONTRACT
 
