@@ -206,13 +206,43 @@ export const StateContextProvider = ({ children }) => {
       console.log(error);
     }
   };
-  const GET_ALL_ICOSALE_TOKEN = async () => {
+  const GET_ALL_USER_ICOSALE_TOKEN = async () => {
     try {
+      setLoader(true);
+      const address = await connectWallet();
+      const contract = await ICO_MARKETPLACE_CONTRACT();
+
+      if (address) {
+        const allICOSaleToken = await contract.getTokenCreatedBy(address);
+
+        const _tokenArray = Promise.all(
+          allICOSaleToken.map(async (token) => {
+            const tokenContract = await TOKEN_CONTRACT(token?.token);
+            const balance = await tokenContract.balanceOf(
+              ICO_MARKETPLACE_ADDRESS
+            );
+
+            return {
+              creator: token.creator,
+              token: token.token,
+              name: token.name,
+              symbol: token.symbol,
+              supported: token.supported,
+              price: ethers.utils.formatEther(token?.price.toString()),
+              icoSaleBal: ethers.utils.formatEther(balance.toString()),
+            };
+          })
+        );
+
+        setLoader(false);
+        return _tokenArray;
+      }
     } catch (error) {
+      notifyError("Something went wrong");
       console.log(error);
     }
   };
-  const GET_ALL_USER_ICOSALE_TOKEN = async () => {
+  const GET_ALL_ICOSALE_TOKEN = async () => {
     try {
       setLoader(true);
       const address = await connectWallet();
@@ -244,6 +274,7 @@ export const StateContextProvider = ({ children }) => {
         return _tokenArray;
       }
     } catch (error) {
+      notifyError("Something went wrong");
       console.log(error);
     }
   };
