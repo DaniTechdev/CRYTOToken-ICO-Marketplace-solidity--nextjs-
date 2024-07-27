@@ -1,10 +1,10 @@
 import { ethers } from "ethers";
-import web3Modal from "web3modal";
+import Web3Modal from "web3modal";
 
 import ERC20Generator from "./ERC20Generator.json";
 import icoMarketplace from "./icoMarketplace.json";
 
-export const ERC20Generator_ABi = ERC20Generator.abi;
+export const ERC20Generator_ABI = ERC20Generator.abi;
 export const ERC20Generator_BYTECODE = ERC20Generator.bytecode;
 
 export const ICO_MARKETPLACE_ADDRESS =
@@ -88,4 +88,49 @@ const changeNetwork = async ({ networkName }) => {
 export const handleNetworkSwitch = async () => {
   const networkName = "polygon_amoy";
   await changeNetwork(networkName);
+};
+
+//function to shorten our addresss
+export const shortenAddresss = (address) =>
+  `${address?.slice(0, 5)}...${address?.length - 4}`;
+
+//CONTRACT
+
+const fetchContract = (address, abi, signer) =>
+  new ethers.Contract(address, abi, signer);
+
+export const ICO_MARKETPLACE_CONTRACT = async () => {
+  try {
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(
+      ICO_MARKETPLACE_ADDRESS,
+      ICO_MARKETPLACE_ABI,
+      signer
+    );
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const TOKEN_CONTRACT = async (TOKEN_ADDRESS) => {
+  try {
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(TOKEN_ADDRESS, ERC20Generator_ABI, signer);
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
 };
