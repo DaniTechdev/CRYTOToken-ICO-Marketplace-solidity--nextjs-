@@ -105,5 +105,78 @@ export const StateContextProvider = ({ children }) => {
   };
 
   //TOKEN Creation will have two functions, internal and the one to attach on the front end
+  //MAIN FUNCTION
+  const _deployContract = async (
+    signer,
+    account,
+    name,
+    symbol,
+    supply,
+    imageUrl
+  ) => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const createERC20 = async (token, account, imageUrl) => {
+    const { name, symbol, supply } = token;
+
+    try {
+      setLoader(true);
+      notifyError("Creating token ...");
+      if (!name || !symbol || !supply) {
+        notifyError("Please fill all the fields");
+      } else {
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+
+        const signer = provider.getSigner();
+
+        _deployContract(signer, account, name, symbol, supply, imageUrl);
+      }
+    } catch (error) {
+      setLoader(false);
+      notifyError("Something went wrong, try later");
+      console.log(error);
+    }
+  };
+  const GET_ALL_ICOSALE_TOKEN = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const GET_ALL_USER_ICOSALE_TOKEN = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const createICOSALE = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const buyToken = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const transferTokens = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const widthdrawToken = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return <StateContext.Provider value={{}}>{children}</StateContext.Provider>;
 };
