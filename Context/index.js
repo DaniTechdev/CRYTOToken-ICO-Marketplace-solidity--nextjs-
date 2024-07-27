@@ -22,6 +22,7 @@ import {
   TOKEN_CONTRACT,
   PINATA_API_KEY,
   PINATA_API_SECRET,
+  ERC20Generator_ABI,
 } from "./constants";
 
 const StateContext = createContext();
@@ -115,10 +116,73 @@ export const StateContextProvider = ({ children }) => {
     imageUrl
   ) => {
     try {
+      const factory = new ethers.ContractFactory(
+        ERC20Generator_ABI,
+        ERC20Generator_BYTECODE,
+        signer
+      );
+
+      const totalSupply = Number(supply);
+
+      const _initialSupply = ethers.utils.parseEther(
+        totalSupply.toString(),
+        "ether"
+      );
+
+      let contract = await factory.deploy(_initialSupply, name, symbol);
+
+      const transaction = await contract.deployed();
+
+      if (contract.address) {
+        const today = Date.now();
+        //format the date
+        let date = new Date(today);
+        const _tokenCreatedDate = date.toLocaleDateString("en-US");
+
+        //now let's build our token object
+        //this will be stored in the local storage
+        const _token = {
+          account: account,
+          supply: supply.toString(),
+          name: name,
+          symbol: symbol,
+          tokenAddresss: contract.address,
+          transactionHash: contract.deployTransaction.hash,
+          createdAt: _tokenCreatedDate,
+          logo: imageUrl,
+        };
+        //since one user can create more than one token,
+        //we will check the local storage to check if the token exist in local storage and get it and update, else we will update
+        //straight away to new one to the local storage
+
+        let tokenHistory = [];
+
+        const history = localStorage.getItem("TOKEN_HISTORY");
+        if (history) {
+          tokenHistory = JSON.parse(localStorage.getItem("TOKEN_HISTORY"));
+          tokenHistory.push(_token);
+          localStorage.setItem("TOKEN_HISTORY", tokenHistory);
+          setLoader(false);
+          setRecall(recall + 1); //this will call all the fetching
+          //funcion internally that we don't need to reload the page
+          setOpenTokenCreator(false); //we have to close the component of token creator
+        } else {
+          tokenHistory.push(_token);
+          localStorage.setItem("TOKEN_HISTORY", tokenHistory);
+          setLoader(false);
+          setRecall(recall + 1); //this will call all the fetching
+          //funcion internally that we don't need to reload the page
+          setOpenTokenCreator(false);
+        }
+      }
     } catch (error) {
+      setLoader(false);
+      notifyError("Something went wrong, try later");
+      console.log(error);
       console.log(error);
     }
   };
+
   const createERC20 = async (token, account, imageUrl) => {
     const { name, symbol, supply } = token;
 
