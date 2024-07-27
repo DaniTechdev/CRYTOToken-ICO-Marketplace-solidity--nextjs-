@@ -378,9 +378,20 @@ export const StateContextProvider = ({ children }) => {
       );
 
       await transaction.wait();
+      setLoader(false);
+      notifySuccess("Transaction completed successfully");
+      setOpenWidthdrawToken(false);
+      setRecall(recall + 1);
     } catch (error) {
+      await transaction.wait();
+      setLoader(false);
+      notifyError("Something went wrong");
+      setOpenWidthdrawToken(false);
+      setRecall(recall + 1);
       console.log(error);
     }
   };
   return <StateContext.Provider value={{}}>{children}</StateContext.Provider>;
 };
+
+export const useStateContext = () => useContext(StateContext);
