@@ -306,14 +306,78 @@ export const StateContextProvider = ({ children }) => {
   };
   const transferTokens = async (transferTokenData) => {
     try {
+      if (
+        !transferTokenData.address ||
+        !transferTokenData.amount ||
+        !transferTokenData.tokenAdd
+      )
+        return notifyError("Data is Missing");
 
-        if(!transferTokenData.address|| !transferTokenData.amount||!transferTokenData.tokenAdd)
+      setLoader(true);
+      notifySuccess("transaction is processing");
+      const address = await connectWallet();
+
+      const contract = await ICO_MARKETPLACE_CONTRACT();
+      //getting the balance of the token the user wants to transfer
+      const _availableBal = await contract.balanceOf(address);
+      const availableToken = ethers.utils.formatEther(_availableBal.toString());
+      if (availableToken <= 0) {
+        const payAmount = ethers.utils.parseEther(
+          transferTokenData.amount.toString(),
+          "ether"
+        ); //amount of token to transfer
+
+        const transaction = await contract.transfer(
+          transferTokenData.address,
+          payAmount,
+          {
+            gasLimit: ethers.utils.hexlify(8000000),
+          }
+        );
+
+        await transaction.wait();
+        setLoader(false);
+        setRecall(recall + 1);
+        setOpenTransferToken(false);
+        notifySuccess("Transaction completed successfully");
+      } else {
+        setLoader(false);
+        setRecall(recall + 1);
+        setOpenTransferToken(false);
+        notifySuccess("Your balance is 0");
+      }
     } catch (error) {
+      setLoader(false);
+      setRecall(recall + 1);
+      setOpenTransferToken(false);
+      notifySuccess("Something went wrong");
       console.log(error);
     }
   };
-  const widthdrawToken = async () => {
+  const widthdrawToken = async (widthdrawQuantity) => {
     try {
+      if (!widthdrawQuantity.account || !widthdrawQuantity.token)
+        return notifyError("Data is Missing");
+
+      setLoader(true);
+      notifySuccess("transaction is processing");
+
+      const address = await connectWallet();
+      const contract = await ICO_MARKETPLACE_CONTRACT();
+
+      const payAmount = ethers.utils.parseUnits(
+        widthdrawQuantity.amount.toString(),
+        "ether"
+      );
+      const transaction = await contract.withdrawToken(
+        widthdrawQuantity.token,
+        payAmount,
+        {
+          gasLimit: ethers.utils.hexlify(8000000),
+        }
+      );
+
+      await transaction.wait();
     } catch (error) {
       console.log(error);
     }
