@@ -218,20 +218,96 @@ export const StateContextProvider = ({ children }) => {
       console.log(error);
     }
   };
-  const createICOSALE = async () => {
+  const createICOSALE = async (icoSale) => {
     try {
+      const { address, price } = icoSale;
+
+      if (!address || !price) return notifyError("Data is Misssing");
+
+      setLoader(true);
+
+      notifySuccess("Creating icoSale...");
+      notifySuccess("Creating icoSale...");
+      await connectWallet();
+
+      const contract = await ICO_MARKETPLACE_CONTRACT();
+
+      const payAmount = ethers.utils.parseUnits(price.toString(), "ethers");
+
+      const transaction = await contract.createICOSale(address, payAmount, {
+        gasLimit: ethers.utils.hexlify(800000),
+      });
+
+      await transaction.wait();
+
+      if (transaction.hash) {
+        setLoader(false);
+        setOpenCreatedICO(false);
+        setRecall(recall + 1);
+      }
     } catch (error) {
+      setLoader(false);
+      setOpenCreatedICO(false);
+      notifyError("Something went wrong");
       console.log(error);
     }
   };
-  const buyToken = async () => {
+
+  const buyToken = async (tokenAddresss, tokenQuantity) => {
     try {
+      setLoader(true);
+      notifySuccess("Purchasing token ...");
+
+      const address = await connectWallet();
+      const contract = await ICO_MARKETPLACE_ADDRESS();
+
+      //lets check if the token the user wants to buy is available in out
+      // ICO_MARKETPLACE for the user to purshase or not
+
+      const _tokenBal = await contract.getBalance(tokenAddresss);
+      const _tokenDetails = await contract.getTokenDetails(tokenAddresss);
+
+      //converting the tokenBalance
+      const availableToken = ethers.utils.formatEther(_tokenBal.toString());
+
+      if (availableToken > 0) {
+        //total price the buyer will pay
+        const price =
+          ethers.utils.formatEther(_tokenDetails.price.toString()) *
+          Number(tokenQuantity);
+
+        const payAmount = ethers.utils.parseUnits(price.toString(), "ether");
+
+        const transaction = await contract.buyToken(
+          tokenAddresss,
+          Number(tokenQuantity),
+          {
+            value: payAmount.toString(),
+            gasLimit: ethers.utils.hexlify(8000000),
+          }
+        );
+
+        await transaction.wait();
+        setLoader(false);
+        setRecall(recall + 1);
+        setOpenBuyToken(false);
+        notifySuccess("Transaction completed successfully");
+      } else {
+        setLoader(false);
+        setOpenBuyToken(false);
+        notifyError("Your token balance is 0");
+      }
     } catch (error) {
+      setLoader(false);
+      setOpenBuyToken(false);
+      notifyError("Something went wrong");
       console.log(error);
     }
   };
-  const transferTokens = async () => {
+  const transferTokens = async (transferTokenData) => {
     try {
+
+        if(!transferTokenData.address|| !transferTokenData.amount||!transferTokenData.tokenAdd)
     } catch (error) {
       console.log(error);
     }
