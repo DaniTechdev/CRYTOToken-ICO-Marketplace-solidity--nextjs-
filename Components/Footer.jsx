@@ -16,7 +16,7 @@ const Footer = () => {
               <a href="/">Creator</a>
             </li>
             <li>
-              <a href="/">ICO</a>
+              <a href="/">ICO </a>
             </li>
           </ul>
         </div>
