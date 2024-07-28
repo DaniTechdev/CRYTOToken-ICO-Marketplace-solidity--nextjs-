@@ -484,6 +484,7 @@ export const StateContextProvider = ({ children }) => {
         openTransferToken,
         setOpenTransferToken,
         openTokenCreator,
+        setOpenTokenCreato,
         setOpenTransferToken,
         openCreatedICO,
         setOpenCreatedICO,
