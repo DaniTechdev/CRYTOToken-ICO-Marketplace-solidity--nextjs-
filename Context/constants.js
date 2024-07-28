@@ -29,7 +29,7 @@ const networks = {
       symbol: "MATIC",
       decimals: 18,
     },
-    rpcUrls: ["https://rpc-amoy.polygon.technology/"],
+    rpcUrls: ["https://rpc-amoy.polygon.technology"],
     blockExplorerUrls: ["https://www.oklink.com/amoy"],
   },
 
@@ -91,7 +91,7 @@ export const handleNetworkSwitch = async () => {
 };
 
 //function to shorten our addresss
-export const shortenAddresss = (address) =>
+export const shortenAddress = (address) =>
   `${address?.slice(0, 5)}...${address.length - 4}`; //getting the first 5 and the last 4 characters
 
 //CONTRACT

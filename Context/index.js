@@ -16,7 +16,7 @@ import {
   ERC20Generator,
   ERC20Generator_BYTECODE,
   handleNetworkSwitch,
-  shortenAddresss,
+  shortenAddress,
   ICO_MARKETPLACE_ADDRESS,
   ICO_MARKETPLACE_CONTRACT,
   TOKEN_CONTRACT,
@@ -30,7 +30,7 @@ const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
   //STATE VARIABLE
   const [addresss, setAddresss] = useState();
-  const [accountBalance, setAccountBalance] = useState(null);
+  const [accountBalance, setAccountBalance] = useState("");
   const [loader, setLoader] = useState(false);
   const [recall, setRecall] = useState(0);
   const [currency, setCurrency] = useState("MATIC");
@@ -71,6 +71,7 @@ export const StateContextProvider = ({ children }) => {
         //format the balance from ether to readable form
         const bal = ethers.utils.formatEther(getbalance);
         setAccountBalance(bal);
+        // setAddresss(accounts[0]);
 
         return accounts[0];
       } else {
@@ -97,15 +98,19 @@ export const StateContextProvider = ({ children }) => {
       });
 
       if (accounts.length) {
-        setAddresss(accounts[0]);
-
-        //lets get the balance of the account immediately it is connected and the account addresss found
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         //on the provider, we have method called get balance
         const getbalance = await provider.getBalance(accounts[0]);
         //format the balance from ether to readable form
         const bal = ethers.utils.formatEther(getbalance);
+        console.log("balance of token", bal);
         setAccountBalance(bal);
+        setAddresss(accounts[0]);
+
+        // const web3modal = new Web3Modal();
+        // const connection = await web3modal.connect();
+        // const provider = new ethers.providers.Web3Provider(connection);
+        //lets get the balance of the account immediately it is connected and the account addresss found
 
         return accounts[0];
       } else {
@@ -497,7 +502,7 @@ export const StateContextProvider = ({ children }) => {
         PINATA_API_KEY,
         PINATA_API_SECRET,
         ICO_MARKETPLACE_ADDRESS,
-        shortenAddresss,
+        shortenAddress,
       }}
     >
       {children}

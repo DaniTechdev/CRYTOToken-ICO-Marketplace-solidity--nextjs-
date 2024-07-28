@@ -43,7 +43,7 @@ const index = () => {
     openCreatedICO,
     setOpenCreatedICO,
     addresss,
-    setAddresss,
+    setAddress,
     accountBalance,
     loader,
     setLoader,
@@ -51,7 +51,7 @@ const index = () => {
     PINATA_API_KEY,
     PINATA_API_SECRET,
     ICO_MARKETPLACE_ADDRESS,
-    shortenAddresss,
+    shortenAddress,
   } = useStateContext();
 
   const notifySuccess = (msg) => toast.success(msg, { duration: 200 });
@@ -73,11 +73,36 @@ const index = () => {
     navigator.clipboard.writeText(ICO_MARKETPLACE_ADDRESS);
     notifySuccess("Copied successfully");
   };
+
   return (
     <div>
-      <Header />
+      <Header
+        accountBalance={accountBalance}
+        setAddress={setAddress}
+        addresss={addresss}
+        connectWallet={connectWallet}
+        ICO_MARKETPLACE_ADDRESS={ICO_MARKETPLACE_ADDRESS}
+        shortenAddress={shortenAddress}
+        openAllICO={openAllICO}
+        setOpenAllICO={setOpenAllICO}
+        setOpenTokenCreator={setOpenTokenCreator}
+        openTokenCreato={openTokenCreator}
+        setOpenTokenHistory={setOpenTokenHistory}
+        openTokenHistory={openTokenHistory}
+        setOpenICOMarketplace={setOpenICOMarketplace}
+        openICOMarketplace={openICOMarketplace}
+      />
+      {openAllICO && <ICOMarket />}
+      {openICOMarketplace && <Marketplace />}
+      {openTokenCreator && <TokenCreator />}
+      {openTokenHistory && <TokenHistory />}
+      {openCreatedICO && <CreateICO />}
+      {openBuyToken && <BuyToken />}
+      {openTransferToken && <TokenTransfer />}
+      {openWidthdrawToken && <WidthdrawToken />}
+      {loader && <Loader />}
       <Footer />
-      <Loader />
+      {/* <Loader /> */}
     </div>
   );
 };
