@@ -39,7 +39,7 @@ const index = () => {
     openTransferToken,
     setOpenTransferToken,
     openTokenCreator,
-    setOpenTokenCreato,
+    setOpenTokenCreator,
     openCreatedICO,
     setOpenCreatedICO,
     addresss,
@@ -64,7 +64,22 @@ const index = () => {
   const [openAllICO, setOpenAllICO] = useState(false);
   const [openTokenHistory, setOpenTokenHistory] = useState(false);
   const [openICOMarketplace, setOpenICOMarketplace] = useState(false);
-  return <div>ICO MARKETPLACE</div>;
+
+  //BUY ICO TOKEN
+  const [buyIco, setBuyIco] = useState();
+
+  //let's create a simple function to copy address to clipboard
+  const copyAddress = () => {
+    navigator.clipboard.writeText(ICO_MARKETPLACE_ADDRESS);
+    notifySuccess("Copied successfully");
+  };
+  return (
+    <div>
+      <Header />
+      <Footer />
+      <Loader />
+    </div>
+  );
 };
 
 export default index;
