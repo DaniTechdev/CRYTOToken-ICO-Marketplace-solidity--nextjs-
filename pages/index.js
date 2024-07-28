@@ -94,7 +94,18 @@ const index = () => {
       />
       {openAllICO && <ICOMarket />}
       {openICOMarketplace && <Marketplace />}
-      {openTokenCreator && <TokenCreator />}
+      {openTokenCreator && (
+        <TokenCreator
+          createERC20={createERC20}
+          shortenAddress={shortenAddress}
+          setOpenTokenCreator={setOpenTokenCreator}
+          setLoader={setLoader}
+          addresss={addresss}
+          connectWallet={connectWallet}
+          PINATA_API_KEY={PINATA_API_KEY}
+          PINATA_API_SECRET={PINATA_API_SECRET}
+        />
+      )}
       {openTokenHistory && <TokenHistory />}
       {openCreatedICO && <CreateICO />}
       {openBuyToken && <BuyToken />}
