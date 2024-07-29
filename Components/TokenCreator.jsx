@@ -22,6 +22,7 @@ const TokenCreator = ({
     supply: "",
   });
 
+  console.log("token", token);
   return (
     <div id={"myModal"} className={"modal"}>
       <div className="modal-content">
@@ -53,7 +54,10 @@ const TokenCreator = ({
         </div>
         <div className="button-box" style={{ marginTop: "1rems" }}>
           {addresss ? (
-            <Button name="Create Token" />
+            <Button
+              name="Create Token"
+              handleClick={() => createERC20(token, addresss, imageUrl)}
+            />
           ) : (
             <Button name="Connect Wallet" handleClick={() => connectWallet()} />
           )}

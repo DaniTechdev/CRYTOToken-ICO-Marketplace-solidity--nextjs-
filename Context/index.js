@@ -178,14 +178,14 @@ export const StateContextProvider = ({ children }) => {
         if (history) {
           tokenHistory = JSON.parse(localStorage.getItem("TOKEN_HISTORY"));
           tokenHistory.push(_token);
-          localStorage.setItem("TOKEN_HISTORY", tokenHistory);
+          localStorage.setItem("TOKEN_HISTORY", JSON.stringify(tokenHistory));
           setLoader(false);
           setRecall(recall + 1); //this will call all the fetching
           //funcion internally that we don't need to reload the page
           setOpenTokenCreator(false); //we have to close the component of token creator
         } else {
           tokenHistory.push(_token);
-          localStorage.setItem("TOKEN_HISTORY", tokenHistory);
+          localStorage.setItem("TOKEN_HISTORY", JSON.stringify(tokenHistory));
           setLoader(false);
           setRecall(recall + 1); //this will call all the fetching
           //funcion internally that we don't need to reload the page

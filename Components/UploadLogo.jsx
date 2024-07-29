@@ -35,7 +35,7 @@ const UploadLogo = ({
         });
 
         const ImgHash = `http://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-
+        console.log("ipfss returned hassh", ImgHash);
         setImageUrl(ImgHash);
         setLoader(false);
         notifySuccess("Logo uploaded successfully");
