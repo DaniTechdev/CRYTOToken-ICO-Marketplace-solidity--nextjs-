@@ -48,6 +48,7 @@ const UploadLogo = ({
   };
 
   const onDrop = useCallback(async (acceptedFile) => {
+    console.log(acceptedFile[0]);
     await uploadToIPFS(acceptedFile[0]);
   });
 
@@ -55,11 +56,31 @@ const UploadLogo = ({
     onDrop,
     maxSize: 500000000000,
   });
-  return <>
-  {imageUrl? (
-    <img src={imageUrl} alt="Logo" St />
-  )}
-  </>;
+  return (
+    <>
+      {imageUrl ? (
+        <div>
+          <img
+            src={imageUrl}
+            alt=""
+            style={{ width: "200px", height: "auto" }}
+          />
+        </div>
+      ) : (
+        <div {...getRootProps()}>
+          <label htmlFor="file">
+            <div className="custum-file-upload">
+              <UploadICON />
+            </div>
+            <div className="text">
+              <span>Click to upload Logo</span>
+            </div>
+            <input type="file" id="file" {...getInputProps()} />
+          </label>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default UploadLogo;

@@ -30,7 +30,7 @@ const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
   //STATE VARIABLE
   const [addresss, setAddresss] = useState();
-  const [accountBalance, setAccountBalance] = useState("");
+  const [accountBalance, setAccountBalance] = useState();
   const [loader, setLoader] = useState(false);
   const [recall, setRecall] = useState(0);
   const [currency, setCurrency] = useState("MATIC");
