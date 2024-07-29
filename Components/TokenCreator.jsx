@@ -38,28 +38,25 @@ const TokenCreator = ({
           PINATA_API_SECRET={PINATA_API_SECRET}
         />
         <div className="input-Container">
-          <input
+          <Input
             placeholder={"name"}
             handleChange={(e) => setToken({ ...token, name: e.target.value })}
           />
-          <input
+          <Input
             placeholder={"Symbol"}
             handleChange={(e) => setToken({ ...token, symbol: e.target.value })}
           />
-          <input
+          <Input
             placeholder={"Supply"}
             handleChange={(e) => setToken({ ...token, supply: e.target.value })}
           />
-          <div className="button-box" style={{ marginTop: "1rems" }}>
-            {addresss ? (
-              <Button name="Create Token" />
-            ) : (
-              <Button
-                name="Connect Wallet"
-                handleClick={() => connectWallet()}
-              />
-            )}
-          </div>
+        </div>
+        <div className="button-box" style={{ marginTop: "1rems" }}>
+          {addresss ? (
+            <Button name="Create Token" />
+          ) : (
+            <Button name="Connect Wallet" handleClick={() => connectWallet()} />
+          )}
         </div>
       </div>
     </div>
