@@ -106,7 +106,12 @@ const index = () => {
           PINATA_API_SECRET={PINATA_API_SECRET}
         />
       )}
-      {openTokenHistory && <TokenHistory />}
+      {openTokenHistory && (
+        <TokenHistory
+          shortenAddress={shortenAddress}
+          setOpenTokenHistory={setOpenTokenHistory}
+        />
+      )}
       {openCreatedICO && <CreateICO />}
       {openBuyToken && <BuyToken />}
       {openTransferToken && <TokenTransfer />}
