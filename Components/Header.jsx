@@ -19,6 +19,8 @@ const Header = ({
   setOpenICOMarketplace,
   openICOMarketplace,
   shortenAddress,
+  setOpenCreateICO,
+  openCreateICO,
 }) => {
   //since we can be changing metamassk account in creating ICO or buy, we will write a function and state that
   //can manage that using useEffect
@@ -78,10 +80,10 @@ const Header = ({
           <li>
             <a
               onClick={() =>
-                openAllICO ? setOpenAllICO(false) : setOpenAllICO(true)
+                openCreateICO ? setOpenCreateICO(false) : setOpenCreateICO(true)
               }
             >
-              Created ICO
+              Create ICO
             </a>
           </li>
           <li>

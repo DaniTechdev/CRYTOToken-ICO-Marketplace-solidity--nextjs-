@@ -40,12 +40,12 @@ export const StateContextProvider = ({ children }) => {
   const [openWidthdrawToken, setOpenWidthdrawToken] = useState(false);
   const [openTransferToken, setOpenTransferToken] = useState(false);
   const [openTokenCreator, setOpenTokenCreator] = useState(false);
-  const [openCreatedICO, setOpenCreatedICO] = useState(false);
+  const [openCreateICO, setOpenCreateICO] = useState(false);
 
   //let write notification function which takes two argumen, msg, duration it will last
 
-  const notifySuccess = (msg) => toast.success(msg, { duration: 200 });
-  const notifyError = (msg) => toast.error(msg, { duration: 200 });
+  const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
+  const notifyError = (msg) => toast.error(msg, { duration: 2000 });
 
   //FUNCTIONS
   //CHECK IF WALLET IS CONNECTED
@@ -298,18 +298,21 @@ export const StateContextProvider = ({ children }) => {
   const createICOSALE = async (icoSale) => {
     try {
       const { address, price } = icoSale;
+      // console.log("address,price", address, price);
 
       if (!address || !price) return notifyError("Data is Misssing");
 
       setLoader(true);
 
       notifySuccess("Creating icoSale...");
-      notifySuccess("Creating icoSale...");
+      // notifySuccess("Creating icoSale...");
       await connectWallet();
 
       const contract = await ICO_MARKETPLACE_CONTRACT();
 
-      const payAmount = ethers.utils.parseUnits(price.toString(), "ethers");
+      const payAmount = ethers.utils.parseUnits(price.toString(), "ether");
+
+      console.log("payAmount", payAmount);
 
       const transaction = await contract.createICOSale(address, payAmount, {
         gasLimit: ethers.utils.hexlify(800000),
@@ -319,12 +322,12 @@ export const StateContextProvider = ({ children }) => {
 
       if (transaction.hash) {
         setLoader(false);
-        setOpenCreatedICO(false);
+        setOpenCreateICO(false);
         setRecall(recall + 1);
       }
     } catch (error) {
       setLoader(false);
-      setOpenCreatedICO(false);
+      setOpenCreateICO(false);
       notifyError("Something went wrong");
       console.log(error);
     }
@@ -491,8 +494,8 @@ export const StateContextProvider = ({ children }) => {
         openTokenCreator,
         setOpenTokenCreator,
         setOpenTransferToken,
-        openCreatedICO,
-        setOpenCreatedICO,
+        openCreateICO,
+        setOpenCreateICO,
         addresss,
         setAddresss,
         accountBalance,

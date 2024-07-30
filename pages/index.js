@@ -40,8 +40,8 @@ const index = () => {
     setOpenTransferToken,
     openTokenCreator,
     setOpenTokenCreator,
-    openCreatedICO,
-    setOpenCreatedICO,
+    openCreateICO,
+    setOpenCreateICO,
     addresss,
     setAddress,
     accountBalance,
@@ -54,8 +54,8 @@ const index = () => {
     shortenAddress,
   } = useStateContext();
 
-  const notifySuccess = (msg) => toast.success(msg, { duration: 200 });
-  const notifyError = (msg) => toast.error(msg, { duration: 200 });
+  const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
+  const notifyError = (msg) => toast.error(msg, { duration: 2000 });
 
   const [allICOs, setAllICOs] = useState();
   const [allUserIcos, setAllUserIcos] = useState();
@@ -91,6 +91,8 @@ const index = () => {
         openTokenHistory={openTokenHistory}
         setOpenICOMarketplace={setOpenICOMarketplace}
         openICOMarketplace={openICOMarketplace}
+        setOpenCreateICO={setOpenCreateICO}
+        openCreateICO={openCreateICO}
       />
       {openAllICO && <ICOMarket />}
       {openICOMarketplace && <Marketplace />}
@@ -112,7 +114,16 @@ const index = () => {
           setOpenTokenHistory={setOpenTokenHistory}
         />
       )}
-      {openCreatedICO && <CreateICO />}
+      {openCreateICO && (
+        <CreateICO
+          shortenAddress={shortenAddress}
+          setOpenCreateICO={setOpenCreateICO}
+          setOpenAllICO={setOpenAllICO}
+          connectWallet={connectWallet}
+          addresss={addresss}
+          createICOSALE={createICOSALE}
+        />
+      )}
       {openBuyToken && <BuyToken />}
       {openTransferToken && <TokenTransfer />}
       {openWidthdrawToken && <WidthdrawToken />}

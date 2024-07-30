@@ -56,7 +56,7 @@ const TokenHistory = ({ shortenAddress, setOpenTokenHistory }) => {
                   <td>{token?.symbol}</td>
                   <td>{token?.supply}</td>
                   <td onClick={() => copyAddress(token?.tokenAddresss)}>
-                    {shortenAddress(token?.tokenAddresss)}
+                    {shortenAddress(token?.tokenAddresss)} 📋
                   </td>
                   <td onClick={() => copyAddress(token?.transactionHash)}>
                     {shortenAddress(token?.transactionHash)} 📋
