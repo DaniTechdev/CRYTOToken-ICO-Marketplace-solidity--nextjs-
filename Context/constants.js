@@ -41,7 +41,7 @@ const networks = {
       symbol: "MATIC",
       decimals: 18,
     },
-    rpcUrls: ["https://rpc.ankr.com/polygon"],
+    rpcUrls: ["https://rpc.ankr.com/polygon_amoy"],
     blockExplorerUrls: ["https://polygonscan.com/"],
   },
   bsc: {

@@ -6,7 +6,7 @@ import Button from "./Button";
 const Header = ({
   accountBalance,
   setAddress,
-  addresss,
+  address,
   connectWallet,
   ICO_MARKETPLACE_ADDRESS,
   shortenAddresss,
@@ -42,13 +42,13 @@ const Header = ({
         );
       }
     };
-  }, [addresss]);
+  }, [address]);
 
   const handleAccountsChanged = (accounts) => {
     if (accounts) setAddress(accounts[0]);
   };
 
-  console.log("balance of token", accountBalance);
+  // console.log("balance of token", accountBalance);
   return (
     <header className="header">
       <nav>
@@ -69,9 +69,7 @@ const Header = ({
           <li>
             <a
               onClick={() =>
-                openICOMarketplace
-                  ? setOpenICOMarketplace(false)
-                  : setOpenICOMarketplace(true)
+                openAllICO ? setOpenAllICO(false) : setOpenAllICO(true)
               }
             >
               ICO Marketplace
@@ -108,10 +106,10 @@ const Header = ({
               Create Token
             </a>
           </li>
-          {addresss ? (
+          {address ? (
             <li>
               <Button
-                name={`${shortenAddress(addresss)}:
+                name={`${shortenAddress(address)}:
                ${accountBalance?.slice(0, 5)}`}
               />
             </li>

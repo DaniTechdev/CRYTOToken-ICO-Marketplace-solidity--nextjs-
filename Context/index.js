@@ -29,7 +29,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   //STATE VARIABLE
-  const [addresss, setAddresss] = useState("");
+  const [address, setAddresss] = useState("");
   const [accountBalance, setAccountBalance] = useState("");
   const [loader, setLoader] = useState(false);
   const [recall, setRecall] = useState(0);
@@ -85,7 +85,7 @@ export const StateContextProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletConnected();
-  }, [addresss]);
+  }, [address]);
 
   const connectWallet = async () => {
     try {
@@ -496,10 +496,11 @@ export const StateContextProvider = ({ children }) => {
         setOpenTransferToken,
         openCreateICO,
         setOpenCreateICO,
-        addresss,
+        address,
         setAddresss,
         accountBalance,
         loader,
+        recall,
         setLoader,
         currency,
         PINATA_API_KEY,

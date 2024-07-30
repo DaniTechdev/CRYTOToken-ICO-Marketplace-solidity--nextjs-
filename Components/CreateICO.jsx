@@ -9,7 +9,7 @@ const CreateICO = ({
   setOpenCreateICO,
   setOpenAllICO,
   connectWallet,
-  addresss,
+  address,
   createICOSALE,
 }) => {
   const [icoSale, setIcoSale] = useState({
@@ -50,7 +50,7 @@ const CreateICO = ({
           />
         </div>
         <div className="button-box" style={{ marginTop: "1rems" }}>
-          {addresss ? (
+          {address ? (
             <Button
               name="Create ICO"
               handleClick={() => createICOSALE(icoSale)}
