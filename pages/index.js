@@ -233,9 +233,32 @@ const index = () => {
           setOpenTokenHistory={setOpenTokenHistory}
         />
       </div>
-      {openBuyToken && <BuyToken buyIco={buyIco} />}
-      {openTransferToken && <TokenTransfer />}
-      {openWidthdrawToken && <WidthdrawToken />}
+      {openBuyToken && (
+        <BuyToken
+          address={address}
+          connectWallet={connectWallet}
+          buyIco={buyIco}
+          setOpenBuyToken={setOpenBuyToken}
+          currency={currency}
+          buyToken={buyToken}
+        />
+      )}
+      {openTransferToken && (
+        <TokenTransfer
+          address={address}
+          transferTokens={transferTokens}
+          connectWallet={connectWallet}
+          setOpenTransferToken={setOpenTransferToken}
+        />
+      )}
+      {openWidthdrawToken && (
+        <WidthdrawToken
+          address={address}
+          connectWallet={connectWallet}
+          widthdrawToken={widthdrawToken}
+          setOpenWidthdrawToken={setOpenWidthdrawToken}
+        />
+      )}
       {loader && <Loader />}
       <Footer />
       {/* <Loader /> */}
