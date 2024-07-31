@@ -45,7 +45,8 @@ const Header = ({
   }, [address]);
 
   const handleAccountsChanged = (accounts) => {
-    if (accounts) setAddress(accounts[0]);
+    // if (accounts) setAddress(accounts[0]);
+    accounts && setAddress(accounts[0]);
   };
 
   // console.log("balance of token", accountBalance);
@@ -69,10 +70,21 @@ const Header = ({
           <li>
             <a
               onClick={() =>
-                openAllICO ? setOpenAllICO(false) : setOpenAllICO(true)
+                openICOMarketplace
+                  ? setOpenICOMarketplace(false)
+                  : setOpenICOMarketplace(true)
               }
             >
               ICO Marketplace
+            </a>
+          </li>
+          <li>
+            <a
+              onClick={() =>
+                openAllICO ? setOpenAllICO(false) : setOpenAllICO(true)
+              }
+            >
+              Created ICOs
             </a>
           </li>
           <li>

@@ -10,7 +10,7 @@ const TokenCreator = ({
   shortenAddress,
   setOpenTokenCreator,
   setLoader,
-  addresss,
+  address,
   connectWallet,
   PINATA_API_KEY,
   PINATA_API_SECRET,
@@ -53,10 +53,10 @@ const TokenCreator = ({
           />
         </div>
         <div className="button-box" style={{ marginTop: "1rems" }}>
-          {addresss ? (
+          {address ? (
             <Button
               name="Create Token"
-              handleClick={() => createERC20(token, addresss, imageUrl)}
+              handleClick={() => createERC20(token, address, imageUrl)}
             />
           ) : (
             <Button name="Connect Wallet" handleClick={() => connectWallet()} />

@@ -173,14 +173,21 @@ const index = () => {
           currency={currency}
         />
       )}
-      {openICOMarketplace && <Marketplace />}
+      {openICOMarketplace && (
+        <ICOMarket
+          array={allICOs}
+          shortenAddress={shortenAddress}
+          handleClick={setOpenICOMarketplace}
+          currency={currency}
+        />
+      )}
       {openTokenCreator && (
         <TokenCreator
           createERC20={createERC20}
           shortenAddress={shortenAddress}
           setOpenTokenCreator={setOpenTokenCreator}
           setLoader={setLoader}
-          addresss={addresss}
+          address={address}
           connectWallet={connectWallet}
           PINATA_API_KEY={PINATA_API_KEY}
           PINATA_API_SECRET={PINATA_API_SECRET}
@@ -202,7 +209,24 @@ const index = () => {
           createICOSALE={createICOSALE}
         />
       )}
-      {openBuyToken && <BuyToken />}
+
+      <div className="create">
+        <h1 style={{ fontSize: "2rem" }}> All ICOs MarketPlace</h1>
+
+        {allICOs?.length != 0 && (
+          <>
+            <Marketplace
+              array={allICOs}
+              shortenAddress={shortenAddress}
+              setBuyIco={setBuyIco}
+              setOpenBuyToken={setOpenBuyToken}
+              currency={currency}
+            />
+            <h1>ICOS SHOULD BE HERE</h1>
+          </>
+        )}
+      </div>
+      {openBuyToken && <BuyToken buyIco={buyIco} />}
       {openTransferToken && <TokenTransfer />}
       {openWidthdrawToken && <WidthdrawToken />}
       {loader && <Loader />}

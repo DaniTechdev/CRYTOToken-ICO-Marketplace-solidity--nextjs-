@@ -17,6 +17,7 @@ const TokenHistory = ({ shortenAddress, setOpenTokenHistory }) => {
     setHistory(JSON.parse(storedData));
     console.log(JSON.parse(storedData));
   }, []);
+
   return (
     <div className="modal">
       <div className="modal-content">

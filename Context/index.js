@@ -29,7 +29,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   //STATE VARIABLE
-  const [address, setAddresss] = useState("");
+  const [address, setAddress] = useState();
   const [accountBalance, setAccountBalance] = useState("");
   const [loader, setLoader] = useState(false);
   const [recall, setRecall] = useState(0);
@@ -61,7 +61,7 @@ export const StateContextProvider = ({ children }) => {
       });
 
       if (accounts.length) {
-        setAddresss(accounts[0]);
+        setAddress(accounts[0]);
 
         //lets get the balance of the account immediately it is connected
         //and the account addresss found
@@ -105,7 +105,7 @@ export const StateContextProvider = ({ children }) => {
         const bal = ethers.utils.formatEther(getbalance);
         console.log("balance of token", bal);
         setAccountBalance(bal);
-        setAddresss(accounts[0]);
+        setAddress(accounts[0]);
 
         // const web3modal = new Web3Modal();
         // const connection = await web3modal.connect();
@@ -241,7 +241,7 @@ export const StateContextProvider = ({ children }) => {
 
             return {
               creator: token.creator,
-              token: token.token,
+              token: token.token, //this for the token address in this context
               name: token.name,
               symbol: token.symbol,
               supported: token.supported,
@@ -497,7 +497,7 @@ export const StateContextProvider = ({ children }) => {
         openCreateICO,
         setOpenCreateICO,
         address,
-        setAddresss,
+        setAddress,
         accountBalance,
         loader,
         recall,
