@@ -214,17 +214,24 @@ const index = () => {
         <h1 style={{ fontSize: "2rem" }}> All ICOs MarketPlace</h1>
 
         {allICOs?.length != 0 && (
-          <>
-            <Marketplace
-              array={allICOs}
-              shortenAddress={shortenAddress}
-              setBuyIco={setBuyIco}
-              setOpenBuyToken={setOpenBuyToken}
-              currency={currency}
-            />
-            <h1>ICOS SHOULD BE HERE</h1>
-          </>
+          <Marketplace
+            array={allICOs}
+            shortenAddress={shortenAddress}
+            setBuyIco={setBuyIco}
+            setOpenBuyToken={setOpenBuyToken}
+            currency={currency}
+          />
         )}
+        <Card
+          setOpenAllICO={setOpenAllICO}
+          setOpenTokenCreator={setOpenTokenCreator}
+          setOpenTransferToken={setOpenTransferToken}
+          setOpenWidthdrawToken={setOpenWidthdrawToken}
+          setOpenICOMarketplace={setOpenICOMarketplace}
+          copyAddress={copyAddress}
+          setOpenCreateICO={setOpenCreateICO}
+          setOpenTokenHistory={setOpenTokenHistory}
+        />
       </div>
       {openBuyToken && <BuyToken buyIco={buyIco} />}
       {openTransferToken && <TokenTransfer />}
