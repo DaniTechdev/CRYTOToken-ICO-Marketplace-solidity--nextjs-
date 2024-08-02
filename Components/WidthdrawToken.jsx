@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import React, { useState, useEffect } from "react";
-
 //INTERNAL IMPORT
 import Input from "./Input";
 import Button from "./Button";
@@ -39,19 +37,10 @@ const WidthdrawToken = ({
             }
           />
           <Input
-            placeholder={"Token Addresss"}
+            placeholder={"Quanity"}
             handleChange={(e) =>
-              settransferTokenData({
+              setWidthdrawQuantity({
                 ...widthdrawQuantity,
-                amount: e.target.value,
-              })
-            }
-          />
-          <Input
-            placeholder={"Quantity"}
-            handleChange={(e) =>
-              settransferTokenData({
-                ...transferTokenData,
                 amount: e.target.value,
               })
             }
@@ -60,7 +49,7 @@ const WidthdrawToken = ({
         <div className="button-box" style={{ marginTop: "1rems" }}>
           {address ? (
             <Button
-              name="Token Transfer"
+              name="Widthdraw Token"
               handleClick={() => widthdrawToken(widthdrawQuantity)}
             />
           ) : (

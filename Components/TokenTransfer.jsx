@@ -15,6 +15,8 @@ const TokenTransfer = ({
     tokenAdd: "",
     amount: "",
   });
+
+  // console.log("transferTokenData", transferTokenData);
   return (
     <div className="modal">
       <div className="modal-content">
@@ -60,7 +62,7 @@ const TokenTransfer = ({
           {address ? (
             <Button
               name="Token Transfer"
-              handleClick={() => transferTokenData(transferTokenData)}
+              handleClick={() => transferTokens(transferTokenData)}
             />
           ) : (
             <Button name="Connect Wallet" handleClick={() => connectWallet()} />

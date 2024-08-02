@@ -18,6 +18,7 @@ const Marketplace = ({
     navigator.clipboard.writeText(text);
     notifySuccess("Copied Successfully");
   };
+
   return (
     <div className="table-container">
       <table className="custom-table">

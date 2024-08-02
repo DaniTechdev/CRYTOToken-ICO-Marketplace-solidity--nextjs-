@@ -29,7 +29,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   //STATE VARIABLE
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState();
   const [accountBalance, setAccountBalance] = useState("");
   const [loader, setLoader] = useState(false);
   const [recall, setRecall] = useState(0);
@@ -265,20 +265,14 @@ export const StateContextProvider = ({ children }) => {
     try {
       setLoader(true);
       const address = await connectWallet();
-      const contract = await ICO_MARKETPLACE_CONTRACT();
+      //   const contract = await ICO_MARKETPLACE_CONTRACT();
 
       if (address) {
         const allICOSaleToken = await contract.getAllTokens();
 
         const _tokenArray = await Promise.all(
           allICOSaleToken.map(async (token) => {
-            // console.log("IcoToken from icoMarketplace", token);
             const tokenContract = await TOKEN_CONTRACT(token?.token);
-            // const icoContract = await ICO_MARKETPLACE_CONTRACT();
-            // console.log("tokenContract", tokenContract);
-
-            // const balance = await icoContract.balanceOf(token?.token);
-
             const balance = await tokenContract.balanceOf(
               ICO_MARKETPLACE_ADDRESS
             );
@@ -348,31 +342,28 @@ export const StateContextProvider = ({ children }) => {
       setLoader(true);
       notifySuccess("Purchasing token ...");
 
-      // if (!tokenQuantity || !tokenAddresss) return notifyError("Data Missing");
+      if (!tokenQuantity || tokenAddresss) return notifyError("Data Missing");
 
       const address = await connectWallet();
-      const contract = await ICO_MARKETPLACE_CONTRACT();
+      const contract = await ICO_MARKETPLACE_ADDRESS();
 
       //lets check if the token the user wants to buy is available in out
       // ICO_MARKETPLACE for the user to purshase or not
 
       const _tokenBal = await contract.getBalance(tokenAddresss);
-      console.log("_tokenBal", _tokenBal);
-
       const _tokenDetails = await contract.getTokenDetails(tokenAddresss);
-      console.log("_tokenDetails", _tokenDetails);
 
       //converting the tokenBalance
       const availableToken = ethers.utils.formatEther(_tokenBal.toString());
-      console.log("availableToken", availableToken);
+
       if (availableToken > 0) {
         //total price the buyer will pay
         const price =
           ethers.utils.formatEther(_tokenDetails.price.toString()) *
           Number(tokenQuantity);
-        console.log("price", price);
+
         const payAmount = ethers.utils.parseUnits(price.toString(), "ether");
-        console.log("payAmount", payAmount);
+
         const transaction = await contract.buyToken(
           tokenAddresss,
           Number(tokenQuantity),
@@ -414,13 +405,9 @@ export const StateContextProvider = ({ children }) => {
       const address = await connectWallet();
 
       console.log("address transfer context", address);
+      const contract = await ICO_MARKETPLACE_CONTRACT();
 
-      const tokenContract = await TOKEN_CONTRACT(transferTokenData.tokenAdd);
-
-      // const bal = await tokenContract.balanceOf(address);
-      // const contract = await ICO_MARKETPLACE_CONTRACT();
-
-      const _availableBal = await tokenContract.balanceOf(address); //to check if the user has any balance of the token the user wants to transfer
+      const _availableBal = await contract.balanceOf(address); //to check if the user has any balance of the token the user wants to transfer
       console.log("_availableBal", _availableBal);
       const availableToken = ethers.utils.formatEther(_availableBal.toString());
       console.log("availableToken", availableToken);
@@ -430,7 +417,7 @@ export const StateContextProvider = ({ children }) => {
           "ether"
         ); //amount of token to transfer
         console.log("payAmount", payAmount);
-        const transaction = await tokenContract.transfer(
+        const transaction = await contract.transfer(
           transferTokenData.address,
           payAmount,
           {
@@ -461,7 +448,7 @@ export const StateContextProvider = ({ children }) => {
 
   const widthdrawToken = async (widthdrawQuantity) => {
     try {
-      if (!widthdrawQuantity.amount || !widthdrawQuantity.token)
+      if (!widthdrawQuantity.account || !widthdrawQuantity.token)
         return notifyError("Data is Missing");
 
       setLoader(true);
@@ -488,6 +475,7 @@ export const StateContextProvider = ({ children }) => {
       setOpenWidthdrawToken(false);
       setRecall(recall + 1);
     } catch (error) {
+      await transaction.wait();
       setLoader(false);
       notifyError("Something went wrong");
       setOpenWidthdrawToken(false);

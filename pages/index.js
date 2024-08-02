@@ -55,11 +55,6 @@ const index = () => {
     shortenAddress,
   } = useStateContext();
 
-  // console.log(
-  //   "all token, user tokens",
-  //   GET_ALL_ICOSALE_TOKEN(),
-  //   GET_ALL_USER_ICOSALE_TOKEN()
-  // );
   const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
   const notifyError = (msg) => toast.error(msg, { duration: 2000 });
 
@@ -71,7 +66,6 @@ const index = () => {
   const [openTokenHistory, setOpenTokenHistory] = useState(false);
   const [openICOMarketplace, setOpenICOMarketplace] = useState(false);
 
-  console.log("allIcos, allUserIcos", allICOs, allUserIcos);
   //BUY ICO TOKEN
   const [buyIco, setBuyIco] = useState();
 
@@ -81,40 +75,6 @@ const index = () => {
     notifySuccess("Copied successfully");
   };
 
-  // useEffect(() => {
-  //   // console.log("UseEffect ran");
-  //   // console.log(
-  //   //   "all token, user tokens",
-  //   //   GET_ALL_ICOSALE_TOKEN(),
-  //   //   GET_ALL_USER_ICOSALE_TOKEN()
-  //   // );
-
-  //   // if (address) {
-  //   //   GET_ALL_ICOSALE_TOKEN().resolve((token) => {
-  //   //     setAllICOs(token);
-  //   //     console.log("All users tokens", token);
-  //   //   });
-  //   //   GET_ALL_USER_ICOSALE_TOKEN().resolve((token) => {
-  //   //     setAllUserIcos(token);
-  //   //     console.log("Alli individual user tokens", token);
-  //   //   });
-  //   // }
-
-  //   if (address) {
-  //     async function logTokens() {
-  //       const allIcoSaleTokens = await GET_ALL_ICOSALE_TOKEN();
-  //       const allUserIcoSaleTokens = await GET_ALL_USER_ICOSALE_TOKEN();
-  //       console.log(
-  //         "all token, user tokens",
-  //         allIcoSaleTokens,
-  //         allUserIcoSaleTokens
-  //       );
-  //     }
-
-  //     logTokens();
-  //   }
-  // }, []);
-
   useEffect(() => {
     //putting the if(address) condition will make this not to run
     async function logTokens() {
@@ -122,11 +82,6 @@ const index = () => {
       const allUserIcoSaleTokens = await GET_ALL_USER_ICOSALE_TOKEN();
       setAllICOs(allIcoSaleTokens);
       setAllUserIcos(allUserIcoSaleTokens);
-      console.log(
-        "all token, user tokens",
-        allIcoSaleTokens,
-        allUserIcoSaleTokens
-      );
     }
     logTokens();
   }, [address, recall]);
@@ -142,8 +97,6 @@ const index = () => {
   // }, []);
 
   //[addresss, recall]
-  console.log("allToken", allICOs, address);
-  console.log("allUSerToken", allUserIcos, address);
 
   return (
     <div>

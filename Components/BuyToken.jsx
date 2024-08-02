@@ -41,7 +41,7 @@ const BuyToken = ({
         <div className="button-box" style={{ marginTop: "1rems" }}>
           {address ? (
             <Button
-              name="Token Transfer"
+              name="But Token"
               handleClick={() => buyToken(buyIco?.token, tokenQuantity)}
             />
           ) : (
